@@ -14,7 +14,7 @@ The example shows how custom variables can take advantage of auto-expanding date
 <transfer-identifier> :
  vars:
    basedir : <a-path>
-   todaydate : '%Y%M%D'
+   todaydate : 'YYYYMMDD'
  host: <hostname-or-ip-address>
  protocol :
    program : /usr/bin/sftp
@@ -24,8 +24,8 @@ The example shows how custom variables can take advantage of auto-expanding date
    prompt: 'sftp > '
    timeout: 15
 whert :
-  remote_path_pattern: '"*%s*" % (todaydate)' 
-  local_path_pattern:  '"%s/%s" % (basedir, todaydate)'
+    remote_path_pattern: '*{{ todaydate }}*'
+    local_path_pattern:  '{{ basedir }}/{{ todaydate }}'
 ```
  
 In code, the long way to transfer a file or set of files from remote to local looks like this:
