@@ -76,6 +76,9 @@ class TransferProfile(object):
 		self.type = TYPE_UNKNOWN
 		self.transfer_profile_name = transfer_profile_name
 		self.source_path = None
+		self.rollover_source_files_after_transfer = False
+		self.rollover_clean_after_download = False
+		self.rollover_extensions = None
 		self.__dict__ = all_transfer_profiles[transfer_profile_name]
 		self.name = transfer_profile_name
 		self.sink_path = sink_path
