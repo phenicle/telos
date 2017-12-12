@@ -208,8 +208,15 @@ class TransferProfile(object):
 
 			with pysftp.Connection(self.host, username=self.user, password=self.password, cnopts=cnopts) as sftp:
 				#client = sftp.sftp_client
+				if self.source_directory:
+					if DEBUGGING:
+						print "source_path contains a directory, therefore change to it"
+					sftp.chdir(self.source_directory)
+
 				for item in sftp.listdir('.'):
 					print item
+
+				sftp.get(self.source_filepattern)
 
 			# connection closes automatically at end of 'with' block
 
@@ -240,7 +247,7 @@ class TransferProfile(object):
 
 		if DEBUGGING:
 			pp.pprint(self)
-			print " Using %s to transfer %s to %s" \
+			print "Using %s to transfer %s to %s" \
 			  % (self.prot, self.source_path, self.sink_path)
 
 		self.prepare_localdir()
