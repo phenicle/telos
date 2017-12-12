@@ -213,10 +213,14 @@ class TransferProfile(object):
 						print "source_path contains a directory, therefore change to it"
 					sftp.chdir(self.source_directory)
 
-				for item in sftp.listdir('.'):
+				count = 0
+				for item in sftp.listdir(self.source_filepattern):
 					print item
+					sftp.get(item)
+					count = count + 1
 
-				sftp.get(self.source_filepattern)
+				if DEBUGGING:
+					print "got %d files" % (count)
 
 			# connection closes automatically at end of 'with' block
 
