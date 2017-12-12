@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # Telos.py
 
-# License here
+# Placeholder for license
 '''
-Documentation header here.
+Telos: it slices, it dices. It makes jullienne fries.
 '''
 
 from ftplib import FTP
@@ -90,6 +90,9 @@ class TransferProfile(object):
 					"password not in transfer profile and there is no env variable named '%s_password'" \
 					% (transfer_profile_name))
 
+		self.is_filename_or_fullpath()
+		self.one_or_many_files()
+
 	def __repr__(self):
 
 		s = '\n'
@@ -120,6 +123,19 @@ class TransferProfile(object):
 
 		return s
 
+	def is_filename_or_fullpath(self):
+
+		(self.source_directory, self.source_filepattern) = os.path.split(self.source_path)
+		if DEBUGGING:
+			print "head: %s" % (self.source_directory)
+			print "tail: %s" % (self.source_filepattern)
+
+	def one_or_many_files(self):
+
+		self.use_multiget = False
+		if '*' in self.source_filepattern:
+			self.use_multiget = True
+
 	def prepare_localdir(self):
 		""" this should be called ONLY when using 'beam_me_down' """
 
@@ -141,6 +157,22 @@ class TransferProfile(object):
 		except Exception, e:
 			print str(e)
 
+	def use_ftp_to_beam_me_down_with_rollover(self):
+
+		if DEBUGGING:
+			print "beaming down WITH rollover" 
+
+
+	def use_ftp_to_beam_me_down_without_rollover(self):
+
+		if DEBUGGING:
+			print "beaming down WITHOUT rollover" 
+
+		ftp = FTP(self.host)
+		ftp.login(self.user,self.password)
+		ftp.dir()
+		ftp.quit()
+
 	def use_ftp_to_beam_me_down(self):
 		""" using ftp to download """
 
@@ -148,17 +180,22 @@ class TransferProfile(object):
 			print "using FTP (%s@%s) to beam down" \
 			  % (self.user,self.host)
 
-		ftp = FTP(self.host)
-		ftp.login(self.user,self.password)
-		ftp.dir()
-		ftp.quit()
+		if self.rollover_source_files_after_transfer:
+			self.use_ftp_to_beam_me_down_with_rollover()
+		else:
+			self.use_ftp_to_beam_me_down_without_rollover()
 
-	def use_sftp_to_beam_me_down(self):
-		""" using sftp to download """
+	def use_sftp_to_beam_me_down_with_rollover(self):
+		""" using sftp to download with rollover """
 
 		if DEBUGGING:
-			print "using SFTP (%s@%s/%s) to beam down" \
-			  % (self.user,self.host,self.password)
+			print "beaming down WITH rollover" 
+
+	def use_sftp_to_beam_me_down_without_rollover(self):
+		""" using sftp to download without rollover """
+
+		if DEBUGGING:
+			print "beaming down WITHOUT rollover" 
 
 		cnopts = pysftp.CnOpts()
 		cnopts.hostkeys = None  
@@ -173,6 +210,19 @@ class TransferProfile(object):
 
 		except Exception, e:
 			print str(e)
+
+	def use_sftp_to_beam_me_down(self):
+		""" using sftp to download """
+
+		if DEBUGGING:
+			print "using SFTP (%s@%s/%s) to beam down" \
+			  % (self.user,self.host,self.password)
+
+		if self.rollover_source_files_after_transfer:
+			self.use_sftp_to_beam_me_down_with_rollover()
+		else:
+			self.use_sftp_to_beam_me_down_without_rollover()
+
 
 	def beam_me_down(self, source_path):
 		""" download requested """
