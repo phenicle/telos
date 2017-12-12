@@ -90,9 +90,6 @@ class TransferProfile(object):
 					"password not in transfer profile and there is no env variable named '%s_password'" \
 					% (transfer_profile_name))
 
-		self.is_filename_or_fullpath()
-		self.one_or_many_files()
-
 	def __repr__(self):
 
 		s = '\n'
@@ -229,6 +226,9 @@ class TransferProfile(object):
 
 		self.source_path = source_path
 		self.type = TYPE_DOWNLOAD
+
+		self.is_filename_or_fullpath()
+		self.one_or_many_files()
 
 		if DEBUGGING:
 			pp.pprint(self)
