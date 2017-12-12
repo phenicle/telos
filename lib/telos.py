@@ -216,11 +216,12 @@ class TransferProfile(object):
 				count = 0
 				for item in sftp.listdir(self.source_filepattern):
 					print item
-					sftp.get(item)
+					#sftp.get(item)
 					count = count + 1
 
 				if DEBUGGING:
-					print "got %d files" % (count)
+					print "filepattern matched %d files" % (count)
+					#print "got %d files" % (count)
 
 			# connection closes automatically at end of 'with' block
 
