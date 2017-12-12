@@ -1,0 +1,39 @@
+---
+# telos transfer profiles file
+
+get_hps :
+  vars :
+    basedir : /data/pix/heartland
+    todaydate : 'YYYYMMDD'
+  protocol:
+    program: /usr/bin/sftp
+    host: eftp.e-hps.com
+    user: CaryOil
+    password: uh2GHqCJ
+    password_prompt: 'assword:*'
+    prompt: 'sftp> '
+    timeout: 15
+  whert:
+    remote_path_pattern: '*{{ todaydate }}*'
+    local_path_pattern:  '{{ basedir }}/{{ todaydate }}'
+get_kenan :
+  vars :
+    basedir : /data/caryoil/kenan
+    todaydate : 'YYYYMMDD'
+  protocol:
+    program: /usr/bin/ftp
+    mode: binary
+    prompt_off: True
+    host: ftp.thekag.com
+    user: caryoil
+    password: RDxs8d4U
+    password_prompt: 'assword:*'
+    prompt: 'ftp> '
+    timeout: 15
+    rollover_source_files_after_transfer: True
+    rollover_extensions : 
+      original: csv
+      rolled:  bak
+  whert:
+    remote_path_pattern: '*.csv'
+    local_path_pattern:  '{{ basedir }}/{{ todaydate }}'

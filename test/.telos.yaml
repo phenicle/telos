@@ -1,0 +1,57 @@
+---
+# .telos.yaml transfer profiles file
+
+# passwords are set via environment variables
+# in the form of <transfer-profile-name>_password
+faux_get_h :
+  prot: sftp
+  host: ftp_sftp_test_server
+  user: sftptest
+  # by default, logging is disabled (none)
+  # valid values are debug, info, warn, error, none
+  logging: debug
+
+faux_get_k :
+  prot: ftp
+  host: ftp_sftp_test_server
+  user: ftptest
+
+faux_get_k2 :
+  prot: ftp
+  host: ftp_sftp_test_server
+  user: ftptest
+  rollover_source_files_after_transfer: True
+  rollover_clean_after_download: True
+  rollover_extensions :
+    original: xls
+    rolled:  bak
+
+faux_get_p : 
+  prot: ftp
+  host: ftp_sftp_test_server
+  user: ftptest
+
+faux_get_i : 
+  prot: ftp
+  host: ftp_sftp_test_server
+  user: ftptest
+
+faux_get_pn : 
+  prot: ftp
+  host: ftp_sftp_test_server
+  user: ftptest
+
+faux_get_pxing : 
+  prot: ftp
+  host: ftp_sftp_test_server
+  user: ftptest
+
+faux_get_s : 
+  prot: sftp
+  host: ftp_sftp_test_server
+  user: ftptest
+
+faux_put_s : 
+  prot: sftp
+  host: ftp_sftp_test_server
+  user: ftptest

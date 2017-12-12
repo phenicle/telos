@@ -1,0 +1,164 @@
+---
+# .telos.yaml transfer profiles file
+
+faux_get_h :
+  vars :
+    basedir : /data/p/h
+    strftime_today : 'YYYYMMDD'
+  protocol:
+    program: /usr/bin/sftp
+    host: ftp_sftp_test_server
+    user: sftptest
+    # password: password set via environment variable
+    password_prompt: 'assword:*'
+    prompt: 'sftp> '
+    timeout: 15
+  whert:
+    remote_path_pattern: '*{{ strftime_today }}*'
+    local_path_pattern:  '{{ basedir }}/{{ strftime_today }}'
+
+faux_get_k :
+  vars :
+    basedir : /data/c/k
+    strftime_today : 'YYYYMMDD'
+  protocol:
+    program: /usr/bin/ftp
+    mode: binary
+    prompt_off: True
+    host: ftp_sftp_test_server
+    user: ftptest
+    # password: password set via environment variable
+    username_prompt: 'ame:*'
+    password_prompt: 'assword:*'
+    prompt: 'ftp> '
+    timeout: 15
+    rollover_source_files_after_transfer: True
+    rollover_extensions :
+      original: csv
+      rolled:  bak
+  whert:
+    remote_path_pattern: '*.csv'
+    local_path_pattern:  '{{ basedir }}/{{ strftime_today }}'
+
+faux_get_k2 :
+  vars :
+    basedir : /data/c/k
+    strftime_today : 'YYYYMMDD'
+  protocol:
+    program: /usr/bin/ftp
+    mode: binary
+    prompt_off: True
+    host: ftp_sftp_test_server
+    user: ftptest
+    # password: password set via environment variable
+    username_prompt: 'ame:*'
+    password_prompt: 'assword:*'
+    prompt: 'ftp> '
+    timeout: 15
+    rollover_source_files_after_transfer: True
+    rollover_clean_after_download: True
+    rollover_extensions :
+      original: xls
+      rolled:  bak
+  whert:
+    remote_path_pattern: '*.csv'
+    local_path_pattern:  '{{ basedir }}/{{ strftime_today }}'
+
+faux_get_p : 
+  vars :
+    basedir : /data/c/p
+    strftime_today : 'YYYYMMDD'
+  protocol:
+    program: /usr/bin/ftp
+    host: ftp_sftp_test_server
+    user: ftptest
+    # password: password set via environment variable
+    password_prompt: 'assword:*'
+    prompt: 'ftp> '
+    timeout: 15
+  whert:
+    remote_path_pattern: '{{ strftime_today }}/*'
+    local_path_pattern:  '{{ basedir }}/{{ strftime_today }}'
+
+faux_get_i : 
+  vars :
+    basedir : /usr/local/src/c/d
+    strftime_today : 'YYYYMMDD'
+  protocol:
+    program: /usr/bin/ftp
+    host: ftp_sftp_test_server
+    user: ftptest
+    # password: password set via environment variable
+    password_prompt: 'assword:*'
+    prompt: 'ftp> '
+    timeout: 15
+  whert:
+    remote_path_pattern: './ReceiveData/ReceiveBOLs tabs.txt'
+    local_path_pattern:  '{{ basedir }}/{{ strftime_today }}'
+
+faux_get_pn : 
+  vars :
+    basedir : /usr/local/src/c/dn
+    strftime_today : 'YYYYMMDD'
+  protocol:
+    program: /usr/bin/ftp
+    host: ftp_sftp_test_server
+    user: ftptest
+    # password: password set via environment variable
+    password_prompt: 'assword:*'
+    prompt: 'ftp> '
+    timeout: 15
+  whert:
+    remote_path_pattern: '{{ strftime_today }}/*'
+    local_path_pattern:  '{{ basedir }}/{{ strftime_today }}/p'
+
+faux_get_pxing : 
+  vars :
+    basedir : /usr/local/src/c/d
+    strftime_today : 'YYYYMMDD'
+    strftime_this_year : 'YYYY'
+    strftime_this_month : 'MM'
+  protocol:
+    program: /usr/bin/ftp
+    host: ftp_sftp_test_server
+    user: ftptest
+    # password: password set via environment variable
+    password_prompt: 'assword:*'
+    prompt: 'ftp> '
+    timeout: 15
+  whert:
+    remote_path_pattern: '*'
+    local_path_pattern:  '{{ basedir }}/{{ strftime_this_year }}/{{ strftime_this_month }}/{{ strftime_today }}'
+
+faux_get_s : 
+  vars :
+    basedir : /usr/local/src/c/s
+    strftime_today : 'YYYYMMDD'
+  protocol:
+    program: /usr/bin/sftp
+    host: ftp_sftp_test_server
+    user: ftptest
+    # password: password set via environment variable
+    password_prompt: 'assword:*'
+    prompt: 'ftp> '
+    timeout: 15
+  whert:
+    remote_path_pattern: '{{ strftime_today }}/*'
+    local_path_pattern:  '{{ basedir }}/{{ strftime_today }}/p'
+
+faux_put_s : 
+  vars :
+    basedir : /data/p
+    # date -d "-2 day" +%Y%m%d (pass as argument to telos ctor!)
+    #strftime_today : 'YYYYMMDD'
+  protocol:
+    program: /usr/bin/sftp
+    host: ftp_sftp_test_server
+    user: ftptest
+    # password: password set via environment variable
+    password_prompt: 'assword:*'
+    prompt: 'ftp> '
+    timeout: 15
+  whert:
+    remote_path_pattern: '.'
+    local_path_pattern:  '{{ basedir }}/saw_{{ two_days_ago }}.CCM'
