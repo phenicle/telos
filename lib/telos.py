@@ -72,14 +72,19 @@ class TransferProfile(object):
 		if not transfer_profile_name in all_transfer_profiles:
 			raise ValueError('transfer_profile %s is not defined in yaml file' \
 			  % transfer_profile_name)
-
-		self.type = TYPE_UNKNOWN
-		self.transfer_profile_name = transfer_profile_name
-		self.source_path = None
-		self.rollover_source_files_after_transfer = False
-		self.rollover_clean_after_download = False
-		self.rollover_extensions = None
+		
 		self.__dict__ = all_transfer_profiles[transfer_profile_name]
+		if not 'type' in self.__dict__:
+			self.type = TYPE_UNKNOWN
+		if not 'source_path' in self.__dict__:
+			self.source_path = None
+		if not 'rollover_source_files_after_transfer' in self.__dict__:
+			self.rollover_source_files_after_transfer = False
+		if not 'rollover_clean_after_download' in self.__dict__:
+			self.rollover_clean_after_download = False
+		if not 'rollover_extensions' in self.__dict__:
+			self.rollover_extensions = None
+
 		self.name = transfer_profile_name
 		self.sink_path = sink_path
 		#pp.pprint(os.environ)
